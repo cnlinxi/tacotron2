@@ -11,7 +11,7 @@ import glob
 
 AUTO_DETECT_SYMBOLS=True
 
-train_text_files = glob.glob(os.path.join('../../female_golden_data', '*.txt'))
+train_text_files = glob.glob(os.path.join('../../female_golden_v2', '*.corpus'))
 if train_text_files and AUTO_DETECT_SYMBOLS:
     _characters = set()
     for file in train_text_files:
