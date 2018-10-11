@@ -1,4 +1,17 @@
 # Tacotron-2:
+### Note:
+
+- In our server, the default configuration will lead to OOM error...
+
+  For decrease memory usage, please follow some instructions as followed:
+
+  - In hparams.py: increase `outputs_per_step` . Max: 3, default: 1.
+  - In hparams.py: set `clip_mels_length` as `True`. default: False. If you still get OOM error, decrease `max_mel_frames`. default: 1000.
+  - In tacotron/feeder.py: decrease `_batches_per_group`. default: 64, the previous version is 32.
+
+- In hparams.py, `trim_top_db` related to the phenomenon that wav generation stops suddenly, also related to the reduction of training set duration. Recommand value: 63, default: 23. In default setting, if you inverse processed wav file, the sound will stop suddenly. This also lead to reducing training set duration.
+
+
 Tensorflow implementation of DeepMind's Tacotron-2. A deep neural network architecture described in this paper: [Natural TTS synthesis by conditioning Wavenet on MEL spectogram predictions](https://arxiv.org/pdf/1712.05884.pdf)
 
 

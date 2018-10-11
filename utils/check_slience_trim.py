@@ -4,7 +4,7 @@
 # @FileName: check_slience_trim.py
 # @Software: PyCharm
 
-import os,glob
+import os,shutil,glob,random
 
 from datasets.audio import *
 import os
@@ -13,7 +13,11 @@ from hparams import hparams
 def get_some_inversed_samples(training_data_path='training_data',output_inversed_path='tmp_inverse_wav_out',n_samples=5):
     mel_files=glob.glob(os.path.join(training_data_path,'mels','*.npy'))
     assert len(mel_files)>=n_samples,'no enough .npy to inverse...'
-    os.makedirs(output_inversed_path,exist_ok=True)
+    if os.path.exists(output_inversed_path):
+        shutil.rmtree(output_inversed_path)
+    os.makedirs(output_inversed_path,exist_ok=False)
+    random.seed(2018)
+    mel_files=random.sample(mel_files,n_samples)
     for mel_file in mel_files:
         mel_file_basename=os.path.basename(mel_file)
         mel_spectro=np.load(mel_file)
