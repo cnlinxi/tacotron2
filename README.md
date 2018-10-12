@@ -1,5 +1,5 @@
 # Tacotron-2:
-### Note:
+### Note
 
 - In our server, the default configuration will lead to OOM error...
 
@@ -10,6 +10,22 @@
   - In tacotron/feeder.py: decrease `_batches_per_group`. default: 64, the previous version is 32.
 
 - In hparams.py, `trim_top_db` related to the phenomenon that wav generation stops suddenly, also related to the reduction of training set duration. Recommand value: 63, default: 23. In default setting, if you inverse processed wav file, the sound will stop suddenly. This also lead to reducing training set duration.
+
+- In hparams.py, set `cleaners` to `basic_cleaners` if you train model in mandarin.
+
+- Multi-GPU version seems to be not accelerated.
+
+### IN TEST
+
+- min training set duration: 100%: 10:/tacotron2; 75%:13:/tacotron2_share75 ;50%: 10:/tacotron2_share50;
+- long sentences(clip_mels_length=False): short: 10:/tacotron2; long: 13:/tacotron_long_sentences
+- min training steps: 10:/tacotron2 and 10:/tacotron2_share50 save every checkpoint files.
+
+### To-Do
+
+*check if not trim_max*: long senteneces
+
+****
 
 
 Tensorflow implementation of DeepMind's Tacotron-2. A deep neural network architecture described in this paper: [Natural TTS synthesis by conditioning Wavenet on MEL spectogram predictions](https://arxiv.org/pdf/1712.05884.pdf)

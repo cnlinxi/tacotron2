@@ -40,7 +40,7 @@ class CustomDecoder(decoder.Decoder):
 		Raises:
 			TypeError: if `cell`, `helper` or `output_layer` have an incorrect type.
 		"""
-		rnn_cell_impl.assert_like_rnncell(type(cell), cell)
+		# rnn_cell_impl.assert_like_rnncell(type(cell), cell)
 		if not isinstance(helper, helper_py.Helper):
 			raise TypeError("helper must be a Helper, received: %s" % type(helper))
 		if (output_layer is not None
