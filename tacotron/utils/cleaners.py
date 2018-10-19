@@ -41,6 +41,10 @@ _abbreviations = [(re.compile('\\b%s\\.' % x[0], re.IGNORECASE), x[1]) for x in 
   ('ft', 'fort'),
 ]]
 
+# List of Chinese special number symbols
+_chinese_number_abbreviations=[(re.compile('\\b%s\\.' % x[0], re.IGNORECASE), x[1]) for x in [
+  ('mrs', 'misess'),
+]]
 
 def expand_abbreviations(text):
   for regex, replacement in _abbreviations:

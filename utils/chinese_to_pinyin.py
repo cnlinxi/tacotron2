@@ -31,4 +31,5 @@ if __name__ == '__main__':
     # output_dir = 'data/pinyin.corpus'
     data_path='female_golden_v2/female_golden_v2.txt'
     output_path='female_golden_v2/female_golden.corpus'
-    transform_chinese_to_pinyin(data_dir, output_dir,type='training_data')
+    type='training_data'
+    transform_chinese_to_pinyin(data_path, output_path,type=type)
