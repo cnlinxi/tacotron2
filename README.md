@@ -1,29 +1,8 @@
 # Tacotron-2:
-### Note
 
-- In our server, the default configuration will lead to OOM error...
+This is Tacotron-2 refered to [Rayhane-mamah-Tacotron2(2018/10/07 Edition)](<https://github.com/Rayhane-mamah/Tacotron-2/tree/970b0803bb41e68cbac854dc958dbb03f34f9604>)
 
-  For decrease memory usage, please follow some instructions as followed:
-
-  - In hparams.py: increase `outputs_per_step` . Max: 3, default: 1.
-  - In hparams.py: set `clip_mels_length` as `True`. default: False. If you still get OOM error, decrease `max_mel_frames`. default: 1000.
-  - In tacotron/feeder.py: decrease `_batches_per_group`. default: 64, the previous version is 32.
-
-- In hparams.py, `trim_top_db` related to the phenomenon that wav generation stops suddenly, also related to the reduction of training set duration. Recommand value: 63, default: 23. In default setting, if you inverse processed wav file, the sound will stop suddenly. This also lead to reducing training set duration.
-
-- In hparams.py, set `cleaners` to `basic_cleaners` if you train model in mandarin.
-
-- Multi-GPU version seems to be not accelerated.
-
-### IN TEST
-
-- min training set duration: 100%: 10:/tacotron2; 75%:13:/tacotron2_share75 ;50%: 10:/tacotron2_share50;
-- long sentences(clip_mels_length=False): short: 10:/tacotron2; long: 13:/tacotron_long_sentences
-- min training steps: 10:/tacotron2 and 10:/tacotron2_share50 save every checkpoint files.
-
-### To-Do
-
-*check if not trim_max*: long senteneces
+You can find audio samples in [Audio Samples](https://cnlinxi.github.io/speech_demo/publications/tacotron2_chinese/index.html) which is trained by [CSMSC](https://www.data-baker.com/open_source.html).
 
 ****
 

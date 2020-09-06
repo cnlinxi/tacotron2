@@ -30,13 +30,17 @@ def build_from_path(hparams, input_dirs, mel_dir, linear_dir, wav_dir, n_jobs=12
     futures = []
     index = 1
     for input_dir in input_dirs:
-        chinese_metadata = glob.glob(os.path.join(input_dir, '*.corpus'))
+        '''
+        glob.glob(r'./*.py') >> ['./1.py','./2.py']
+        glob.glob(r'*.py') >> ['1.py','2.py']
+        '''
+        chinese_metadata = glob.glob(os.path.join(input_dir, '*.pinyin'))
         for meta in chinese_metadata:
             with open(meta, 'rb') as fin:
                 for line in fin:
                     line = line.decode().strip('\n\r ').split('|')
                     basename = '{}.wav'.format(line[0])
-                    text = line[1].strip('\n\r ')
+                    text = line[1].strip('\r\n ')
                     wav_path = os.path.join(input_dir, 'wavs', basename)
                     futures.append(executor.submit(partial(_process_utterance, mel_dir, linear_dir, wav_dir,
                                                            basename, wav_path, text, hparams)))

@@ -1,0 +1,26 @@
+该中文TTS要点：
+
+1.中文训练支持的字符：只有逗号，句号，感叹号，问号，空格5种符号。
+_characters='12345ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz，。！？#*$% '
+#*$%分别表示第一、第二、第三、第四韵律层级，目前第一和第二韵律合并为“#”
+12345表示拼音声调，5表示轻声
+小写字母为轻声，大写字母是为了支持英文字母
+
+2.hparams.py
+cleaners='basic_cleaner'
+hop_size=256
+win_size=1024
+fmin=95(女声)/55(男声)
+trim_top_db=63
+outputs_per_step=2或3
+max_abs_value=4
+
+3.修改tacotron/utils/cleaner.py：将text=lowercase(text)注释掉
+
+4.更换数据集需要注意：
+更新preprocess.py内的supported_datasets部分的内容；并且更新datasets/preprocessor.py内的内容，如text=part[1], open(os.path.join(input_dir,'metadata.txt'))
+
+5.在tacotron/train.py中修改saver=tf.train.Saver(max_to_keep=20)可以修改模型的ckpt的数量
+
+6.可以不产生由mel产生的音频，在tacotron/synthesizer.py中，注释掉：
+audio.save_wav(wav, os.path.join(log_dir, 'wavs/wav-{}-mel.wav'.format(basenames[i])), sr=hparams.sample_rate)

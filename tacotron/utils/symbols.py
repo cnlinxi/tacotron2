@@ -20,7 +20,8 @@ if train_text_files and AUTO_DETECT_SYMBOLS:
                 line=line.decode().split('|')[1]
                 _characters=_characters.union(line)
 else:
-    _characters = 'abcdefghijklmnopqrstuvwxyz12345；，。、？“”，：！-《》（） '
+    # '#, *, $, %' represent the first, second, third and fourth levels of rhythm
+    _characters = '12345ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz，。！？#*$% '
 
 _pad = '_'
 _eos = '~'

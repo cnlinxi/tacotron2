@@ -48,7 +48,7 @@ def synthesize(args, hparams, taco_checkpoint, wave_checkpoint, sentences):
     # Sleep 1/2 second to let previous graph close and avoid error messages while Wavenet is synthesizing
     sleep(0.5)
     log('Synthesizing audio from mel-spectrograms.. (This may take a while)')
-    wavenet_synthesize(args, hparams, wave_checkpoint)
+    # wavenet_synthesize(args, hparams, wave_checkpoint)
     log('Tacotron-2 TTS synthesis complete!')
 
 
@@ -58,7 +58,7 @@ def main():
     parser.add_argument('--checkpoint', default='pretrained/', help='Path to model checkpoint')
     parser.add_argument('--hparams', default='',
                         help='Hyperparameter overrides as a comma-separated list of name=value pairs')
-    parser.add_argument('--name', default='tacotron2_female_golden_v2_female_v2_first_run_all_checkpoint',help='Name of logging directory if the two models were trained together.')
+    parser.add_argument('--name', default='tacotron2',help='Name of logging directory if the two models were trained together.')
     parser.add_argument('--tacotron_name', help='Name of logging directory of Tacotron. If trained separately')
     parser.add_argument('--wavenet_name', help='Name of logging directory of WaveNet. If trained separately')
     parser.add_argument('--model', default='Tacotron')
@@ -111,12 +111,19 @@ def main():
 
 
 if __name__ == '__main__':
-    with open('../logs-tacotron2_female_golden_v2_female_v2_first_run_all_checkpoint/taco_pretrained/checkpoint.backup','rb') as fin:
-        all_paths=fin.readlines()[1:]
-        for i in range(len(all_paths)):
-            model_path=all_paths[i].decode().split(':')[1]
-            with open('../logs-tacotron2_female_golden_v2_female_v2_first_run_all_checkpoint/taco_pretrained/checkpoint','wb') as fout:
-                fout.write('model_checkpoint_path:{}'.format(model_path).encode())
-                fout.writelines(all_paths)
-            main()
-            sleep(1)
+    start_index=5000
+    end_index=140000
+    all_model_checkpoint_paths=[f'all_model_checkpoint_paths: "tacotron_model.ckpt-{x}"' for x in range(start_index,end_index+5000,5000)]
+    for index in range(start_index,end_index+5000,5000):
+        active_checkpoint=f'model_checkpoint_path: "tacotron_model.ckpt-{index}"'
+        all_lines=[active_checkpoint]+all_model_checkpoint_paths
+        all_lines=[x.encode() for x in all_lines]
+        with open('logs-tacotron2/taco_pretrained/checkpoint', 'wb') as fout:
+            fout.writelines(all_lines)
+
+        print(f'start generate {active_checkpoint}')
+        main()
+        os.rename('tacotron_output',f'tacotron_output_{index}')
+        sleep(0.5)
+        print(f'tacotron_output_{index} finish...')
+        sleep(0.5)
